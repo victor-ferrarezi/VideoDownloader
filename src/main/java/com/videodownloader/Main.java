@@ -50,6 +50,7 @@ public class Main {
 
             if (!YtValidator.isValid(url)) {
                 System.out.println("URL invalida. Tente novamente.");
+                continue;
             }
             try {
                 switch (opcao) {
