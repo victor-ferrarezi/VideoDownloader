@@ -37,3 +37,11 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

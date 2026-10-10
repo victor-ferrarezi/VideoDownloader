@@ -15,11 +15,28 @@ public class Main {
             System.out.println("==============================");
             System.out.println("1- Download video");
             System.out.println("2- sair");
+            System.out.println("Escolha uma opção: ");
 
-            /// criando opcoes
             opcao = sc.nextInt();
+            sc.nextLine();
+
+            /// opcoes
             if (opcao == 1) {
-                System.out.println("Escolha uma opção: ");
+
+                    String url;
+                    /// loop url
+                    do {
+                        System.out.println("Digite uma URL valida: ");
+                        url = sc.nextLine();
+
+                    if (!YtValidator.isValid(url)) {
+                        System.out.println("URL invalida. Tente novamente.");
+                    }
+                }while (!YtValidator.isValid(url));
+                System.out.println("URL aceita!");
+                System.out.println("URL: " + url);
+
+
 
             } else if (opcao == 2) {
                 System.out.println("Sair");
@@ -28,7 +45,7 @@ public class Main {
                 System.out.println("invalido");
             }
         }
-
+            /// loop invalido
             while (opcao != 2) ;
 
             sc.close();
