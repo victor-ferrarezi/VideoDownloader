@@ -57,15 +57,14 @@ public class Main {
                     case 1 -> {
                         VideoInfo video = ytService.buscarInformacoes(url);
 
-                        System.out.println("Título: " +
-                                video.getTitulo());
-                        System.out.println("Canal: " +
-                                video.getTitulo());
-                        System.out.println("Duração: " +
-                                video.getDuracaoFormatada());
+                        System.out.println("Título: " + video.getTitulo());
+                        System.out.println("Canal: " + video.getCanal());
+                        System.out.println("Duração: " + video.getDuracaoFormatada());
 
                     }
                     case 2 -> {
+                        System.out.println("Buscando formatos disponíveis...");
+
                         List<VideoFormat> formatos =
                                 ytService.buscarFormatos(url);
 
@@ -73,8 +72,16 @@ public class Main {
                             System.out.println(
                                     "Nenhum formato de video foi encontrado."
                             );
+                        } else {
+                            System.out.println("\nformatos disponíveis");
+                            for (VideoFormat formato : formatos) {
+                                System.out.println(formato);
+                            }
+                            System.out.println("\nTotal de formatos: " + formatos.size());
                         }
                     }
+
+
                     case 3 -> downloadService.baixarVideo(url);
                 }
             } catch (IOException e) {

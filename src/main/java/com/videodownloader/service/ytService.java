@@ -100,11 +100,7 @@ public class ytService {
 
         builder.redirectError(ProcessBuilder.Redirect.INHERIT);
 
-        System.out.println("1. Iniciando consulta...");
-
         Process process = builder.start();
-
-        System.out.println("2. Processo iniciado...");
 
         StringBuilder json = new StringBuilder();
 
@@ -121,9 +117,6 @@ public class ytService {
         }
 
         int codigoSaida = process.waitFor();
-
-        System.out.println("3. Processo finalizado. Código: " + codigoSaida);
-        System.out.println("4. Tamanho do JSON: " + json.length());
 
         if (codigoSaida != 0) {
             throw new IOException(

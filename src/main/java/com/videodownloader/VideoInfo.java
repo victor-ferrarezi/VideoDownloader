@@ -16,14 +16,14 @@ public class VideoInfo {
     public String getTitulo() {
         return titulo;
     }
-    public void getCanal(String canal) {
-        this.canal = canal;
+    public String getCanal(){
+        return canal;
     }
     public long getDuracao() {
         return duracao;
     }
 
-    /// formatar o tempo
+    /// Formatar o tempo
 
     public String getDuracaoFormatada() {
         long horas = duracao / 3600;
