@@ -1,4 +1,4 @@
-package com.videodownloader;
+package com.videodownloader.model;
 
 public class VideoFormat {
     private final String id;
@@ -6,7 +6,6 @@ public class VideoFormat {
     private final String resolucao;
     private final String descricao;
     private final boolean temAudio;
-
 
     public VideoFormat(
             String id,
@@ -20,22 +19,17 @@ public class VideoFormat {
         this.resolucao = resolucao;
         this.descricao = descricao;
         this.temAudio = temAudio;
-
     }
 
     public String getId() {
         return id;
-
     }
-
     public String getExtensao() {
         return extensao;
     }
-
     public String getDescricao() {
         return descricao;
     }
-
     public String getResolucao() {
         return resolucao;
     }
@@ -45,10 +39,7 @@ public class VideoFormat {
 
     @Override
     public String toString() {
-        return id + " | "
-                + resolucao + " | "
-                + extensao + " | "
-                + descricao +
-                " | " + temAudio;
+        return id + " | " + resolucao + " | " + extensao
+                + " | " + descricao + " | " + temAudio;
     }
 }

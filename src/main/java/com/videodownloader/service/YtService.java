@@ -2,8 +2,8 @@ package com.videodownloader.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.videodownloader.VideoFormat;
-import com.videodownloader.VideoInfo;
+import com.videodownloader.model.VideoFormat;
+import com.videodownloader.model.VideoInfo;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ytService {
+public class YtService {
     public static VideoInfo buscarInformacoes(String url)
                 throws IOException, InterruptedException{
 
@@ -84,7 +84,7 @@ public class ytService {
 
 
     public static List<VideoFormat> buscarFormatos(String url)
-            throws IOException, InterruptedException {
+            throws IOException, InterruptedException{
 
         ProcessBuilder builder = new ProcessBuilder(
                 "py",
@@ -159,8 +159,6 @@ public class ytService {
 
             formatos.add(videoFormat);
         }
-
-        System.out.println("5. Formatos encontrados: " + formatos.size());
         return formatos;
     }
 }

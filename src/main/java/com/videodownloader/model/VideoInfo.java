@@ -1,4 +1,4 @@
-package com.videodownloader;
+package com.videodownloader.model;
 
 public class VideoInfo {
 
