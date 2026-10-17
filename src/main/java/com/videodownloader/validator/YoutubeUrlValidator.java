@@ -2,7 +2,7 @@ package com.videodownloader.validator;
 
 import java.net.URI;
 
-public class YtValidator {
+public class YoutubeUrlValidator {
     public static boolean isValid(String url){
 
         if (url == null || url.isEmpty()){

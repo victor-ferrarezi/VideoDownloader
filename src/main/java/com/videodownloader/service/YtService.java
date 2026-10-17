@@ -2,8 +2,10 @@ package com.videodownloader.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.videodownloader.config.YtDlpProperties;
 import com.videodownloader.model.VideoFormat;
 import com.videodownloader.model.VideoInfo;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,27 +13,31 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-
+@Service
 public class YtService {
-    public static VideoInfo buscarInformacoes(String url)
-                throws IOException, InterruptedException{
 
-            ProcessBuilder builder = new ProcessBuilder(
-            "py",
-                    "-m",
-                    "yt_dlp",
-                    "--no-warnings",
-                    "--no-playlist",
-                    "--skip-download",
-                    "--print", "%(title)s",
-                    "--print", "%(channel)s",
-                    "--print", "%(duration)s",
-                    "--",
-                    url
-            );
+    private final YtDlpProperties yt;
+    private final ObjectMapper mapper = new ObjectMapper();
+
+    public YtService(YtDlpProperties yt){
+        this.yt = yt;
+    }
+
+    public VideoInfo buscarInformacoes(String url)
+                throws IOException, InterruptedException {
+
+        ProcessBuilder builder = new ProcessBuilder(yt.comandoCom(
+                "--no-warnings",
+                "--no-playlist",
+                "--skip-download",
+                "--print", "%(title)s",
+                "--print", "%(channel)s",
+                "--print", "%(duration)s",
+                "--",
+                url
+        ));
 
             builder.redirectErrorStream(true);
-
             Process process = builder.start();
 
             StringBuilder resultado = new StringBuilder();
@@ -65,15 +71,13 @@ public class YtService {
                 || dados[2].equals("NA")){
 
                 throw new IOException(
-                        "Não foi possível obter todos os dados do vídeo."
-                );
+                        "Não foi possível obter todos os dados do vídeo.");
             }
 
             String titulo = dados[0].strip();
             String canal = dados[1].strip();
 
             long duracao;
-
             try{
                 duracao = Long.parseLong(dados[2].strip());
             } catch(NumberFormatException e) {
@@ -83,20 +87,17 @@ public class YtService {
             }
 
 
-    public static List<VideoFormat> buscarFormatos(String url)
+    public List<VideoFormat> buscarFormatos(String url)
             throws IOException, InterruptedException{
 
-        ProcessBuilder builder = new ProcessBuilder(
-                "py",
-                "-m",
-                "yt_dlp",
+        ProcessBuilder builder = new ProcessBuilder(yt.comandoCom(
                 "--no-warnings",
                 "--no-playlist",
                 "--skip-download",
                 "--dump-single-json",
                 "--",
                 url
-        );
+        ));
 
         builder.redirectError(ProcessBuilder.Redirect.INHERIT);
 
@@ -141,20 +142,16 @@ public class YtService {
             String codecVideo = formato.path("vcodec").asText("none");
             String codecAudio = formato.path("acodec").asText("none");
 
-            // Ignora formatos que não possuem vídeo
+            // ignora formatos que não possuem vídeo
             if (id.isBlank() || codecVideo.equals("none")) {
                 continue;
             }
 
-            // Verifica se o formato já possui áudio
+            // verifica se o formato já possui áudio
             boolean temAudio = !codecAudio.equals("none");
 
-            VideoFormat videoFormat = new VideoFormat(
-                    id,
-                    extensao,
-                    resolucao,
-                    descricao,
-                    temAudio
+            VideoFormat videoFormat = new VideoFormat(id, extensao,
+                    resolucao, descricao, temAudio
             );
 
             formatos.add(videoFormat);
