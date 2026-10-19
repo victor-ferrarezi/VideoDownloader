@@ -1,0 +1,238 @@
+/* ==========================================================
+   style.css - aparência da página
+   ========================================================== */
+
+/* ---------- 1. Cores e medidas (variáveis) ----------
+   Todas as cores ficam aqui. Para mudar o visual do site inteiro,
+   basta mudar estes valores. */
+:root {
+    --fundo: #edf1f0;
+    --superficie: #ffffff;
+    --texto: #14211f;
+    --suave: #55655f;
+    --borda: #cbd6d2;
+
+    --primaria: #0b5d63;
+    --primaria-hover: #084a4f;
+    --sobre-primaria: #ffffff;   /* cor do texto dentro do botão */
+    --destaque: #e8a317;         /* cor da barra de progresso */
+
+    --info-fundo: #e1eff0;   --info-texto: #0b4a50;
+    --ok-fundo: #e3f3e5;     --ok-texto: #1b5e2b;
+    --erro-fundo: #fbe9e7;   --erro-texto: #9a2a1f;
+}
+
+/* Modo escuro: o navegador avisa qual o tema do sistema do usuário */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --fundo: #0d1819;
+        --superficie: #15262a;
+        --texto: #e6efec;
+        --suave: #9db2ac;
+        --borda: #28403f;
+
+        --primaria: #3fb5bd;
+        --primaria-hover: #5cc7ce;
+        --sobre-primaria: #06201f;
+        --destaque: #f0b429;
+
+        --info-fundo: #17353a;   --info-texto: #bfe6e9;
+        --ok-fundo: #173a22;     --ok-texto: #b7e4be;
+        --erro-fundo: #46201c;   --erro-texto: #ffc9c1;
+    }
+}
+
+/* ---------- 2. Regras gerais ---------- */
+
+/* box-sizing: width e padding passam a somar de forma previsível */
+* { box-sizing: border-box; }
+
+/* Sem esta regra, um "display" definido em outro lugar anularia o
+   atributo hidden do HTML e a seção apareceria mesmo escondida. */
+[hidden] { display: none !important; }
+
+body {
+    margin: 0;
+    background: var(--fundo);
+    color: var(--texto);
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif;
+    line-height: 1.5;
+}
+
+.pagina {
+    max-width: 680px;        /* largura máxima: textos longos cansam a leitura */
+    margin: 0 auto;          /* centraliza */
+    padding: 28px 16px 56px;
+}
+
+h1 {
+    margin: 0 0 6px;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+h2 {
+    margin: 0 0 12px;
+    font-size: 1.15rem;
+    font-weight: 650;
+    overflow-wrap: anywhere;   /* títulos longos quebram em vez de vazar */
+}
+
+.topo { margin-bottom: 24px; }
+.topo p { margin: 0; color: var(--suave); }
+
+.texto-suave { color: var(--suave); }
+
+/* ---------- 3. Painéis (as "caixas" da página) ---------- */
+.painel {
+    background: var(--superficie);
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 16px;
+}
+
+label { font-weight: 600; }
+
+/* ---------- 4. Campo de link e botões ---------- */
+.linha-busca {
+    display: flex;
+    flex-direction: column;   /* no celular: um embaixo do outro */
+    gap: 10px;
+    margin-top: 8px;
+}
+
+input[type="url"] {
+    width: 100%;
+    padding: 12px;
+    font: inherit;
+    color: var(--texto);
+    background: var(--fundo);
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+}
+
+button {
+    padding: 12px 20px;
+    font: inherit;
+    font-weight: 650;
+    color: var(--sobre-primaria);
+    background: var(--primaria);
+    border: 0;
+    border-radius: 8px;
+    cursor: pointer;
+}
+button:hover:not(:disabled) { background: var(--primaria-hover); }
+button:disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* Contorno visível para quem navega com o teclado (Tab) */
+:focus-visible {
+    outline: 3px solid var(--destaque);
+    outline-offset: 2px;
+}
+
+#btn-baixar { width: 100%; }
+
+/* ---------- 5. Mensagens ---------- */
+.mensagem {
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+.mensagem.info    { background: var(--info-fundo); color: var(--info-texto); }
+.mensagem.sucesso { background: var(--ok-fundo);   color: var(--ok-texto); }
+.mensagem.erro    { background: var(--erro-fundo); color: var(--erro-texto); }
+
+/* ---------- 6. Informações do vídeo ---------- */
+.dados {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 32px;
+    margin: 0;
+}
+.dados dt { color: var(--suave); font-size: 0.9rem; }
+.dados dd { margin: 0; font-weight: 600; overflow-wrap: anywhere; }
+
+/* ---------- 7. Lista de formatos ---------- */
+.formatos {
+    max-height: 320px;      /* a lista tem rolagem própria */
+    overflow-y: auto;
+    margin-bottom: 16px;
+    border: 1px solid var(--borda);
+    border-radius: 8px;
+}
+
+.opcao {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--borda);
+    font-weight: 400;
+    cursor: pointer;
+}
+.opcao:last-child { border-bottom: 0; }
+
+/* :has(...) marca a linha inteira quando o botão de rádio dentro dela
+   está selecionado */
+.opcao:has(input:checked) { background: var(--info-fundo); }
+
+.opcao input { margin-top: 5px; accent-color: var(--primaria); }
+
+.opcao-texto { display: flex; flex-direction: column; }
+.opcao-texto small { color: var(--suave); }
+
+/* ---------- 8. Progresso (o destaque da página) ---------- */
+.percentual {
+    margin: 0 0 8px;
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;   /* números com largura fixa: não "tremem" */
+}
+
+.barra {
+    height: 16px;
+    overflow: hidden;
+    background: var(--fundo);
+    border: 1px solid var(--borda);
+    border-radius: 999px;
+}
+
+.barra-preenchida {
+    width: 0%;
+    height: 100%;
+    background: var(--destaque);
+    transition: width 0.4s ease;
+}
+
+.progresso-texto { margin: 10px 0 0; color: var(--suave); }
+
+/* ---------- 9. Histórico ---------- */
+.historico-area { margin-top: 32px; }
+
+.historico { list-style: none; margin: 0; padding: 0; }
+
+.historico li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--borda);
+    overflow-wrap: anywhere;
+}
+.historico li:last-child { border-bottom: 0; }
+.historico small { display: block; color: var(--suave); }
+.historico li.com-erro small { color: var(--erro-texto); }
+
+/* ---------- 10. Telas maiores ---------- */
+@media (min-width: 560px) {
+    .linha-busca { flex-direction: row; }       /* campo e botão lado a lado */
+    #btn-consultar { white-space: nowrap; }
+    #btn-baixar { width: auto; }
+}
+
+/* Quem desativou animações no sistema não vê a barra deslizando */
+@media (prefers-reduced-motion: reduce) {
+    .barra-preenchida { transition: none; }
+}

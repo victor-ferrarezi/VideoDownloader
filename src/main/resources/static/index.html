@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Video Downloader</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main class="pagina">
+
+    <header class="topo">
+        <h1>Video Downloader</h1>
+        <p>Cole o link de um vídeo do YouTube, escolha a qualidade e baixe o arquivo.</p>
+    </header>
+
+    <!-- 1. Formulário: o usuário cola o link -->
+    <!-- novalidate: a validação de verdade é feita pelo servidor -->
+    <form id="form-url" class="painel" novalidate>
+        <label for="campo-url">Link do vídeo</label>
+        <div class="linha-busca">
+            <input id="campo-url" type="url" autocomplete="off"
+                   placeholder="https://www.youtube.com/watch?v=...">
+            <button id="btn-consultar" type="submit">Consultar vídeo</button>
+        </div>
+    </form>
+
+    <!-- 2. Mensagens de andamento, sucesso e erro -->
+    <!-- aria-live: leitores de tela anunciam quando o texto muda -->
+    <div id="mensagem" class="mensagem" role="status" aria-live="polite" hidden></div>
+
+    <!-- 3. Informações do vídeo (começa escondido) -->
+    <section id="painel-info" class="painel" hidden>
+        <h2 id="info-titulo"></h2>
+        <dl class="dados">
+            <div>
+                <dt>Canal</dt>
+                <dd id="info-canal"></dd>
+            </div>
+            <div>
+                <dt>Duração</dt>
+                <dd id="info-duracao"></dd>
+            </div>
+        </dl>
+    </section>
+
+    <!-- 4. Lista de formatos -->
+    <section id="painel-formatos" class="painel" hidden>
+        <h2>Escolha a qualidade</h2>
+        <div id="lista-formatos" class="formatos"
+             role="radiogroup" aria-label="Formatos disponíveis"></div>
+        <button id="btn-baixar" type="button">Baixar vídeo</button>
+    </section>
+
+    <!-- 5. Andamento do download -->
+    <section id="painel-progresso" class="painel" hidden>
+        <p id="percentual" class="percentual">0%</p>
+        <div id="barra" class="barra" role="progressbar"
+             aria-label="Progresso do download"
+             aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div id="barra-preenchida" class="barra-preenchida"></div>
+        </div>
+        <p id="progresso-texto" class="progresso-texto"></p>
+    </section>
+
+    <!-- 6. Histórico (vem do banco de dados; só aparece se a API responder) -->
+    <section id="painel-historico" class="historico-area" hidden>
+        <h2>Downloads recentes</h2>
+        <p id="historico-vazio" class="texto-suave">Nenhum download ainda.</p>
+        <ul id="lista-historico" class="historico"></ul>
+    </section>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
