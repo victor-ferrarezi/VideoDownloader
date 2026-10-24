@@ -1,4 +1,4 @@
-package exception;
+package com.videodownloader.exception;
 
 import com.videodownloader.dto.ErrorResponse;
 import com.videodownloader.exception.ApiException;

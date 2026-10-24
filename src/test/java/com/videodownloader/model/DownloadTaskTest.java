@@ -1,4 +1,4 @@
-package model;
+package com.videodownloader.model;
 
 import com.videodownloader.model.DownloadStatus;
 import com.videodownloader.model.DownloadTask;

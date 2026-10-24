@@ -1,4 +1,4 @@
-package validator;
+package com.videodownloader.validator;
 
 import com.videodownloader.validator.YoutubeUrlValidator;
 import org.junit.jupiter.params.ParameterizedTest;

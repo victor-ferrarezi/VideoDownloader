@@ -1,4 +1,4 @@
-package model;
+package com.videodownloader.model;
 
 import com.videodownloader.model.VideoInfo;
 import org.junit.jupiter.params.ParameterizedTest;

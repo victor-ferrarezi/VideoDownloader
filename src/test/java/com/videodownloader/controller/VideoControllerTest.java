@@ -1,4 +1,4 @@
-package controller;
+package com.videodownloader.controller;
 
 import com.videodownloader.controller.VideoController;
 import com.videodownloader.dto.UrlRequest;

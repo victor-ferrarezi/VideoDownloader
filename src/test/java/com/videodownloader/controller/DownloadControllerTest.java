@@ -1,4 +1,4 @@
-package controller;
+package com.videodownloader.controller;
 
 import com.videodownloader.controller.DownloadController;
 import com.videodownloader.dto.DownloadRequest;
@@ -14,7 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
+import java.nio.file.Path;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -95,4 +95,16 @@ class DownloadControllerTest {
 
         assertEquals(HttpStatus.CONFLICT, erro.getStatus());
     }
+    @Test
+    void arquivoJaRemovidoDoServidorRetorna410() {
+        DownloadTask tarefa = new DownloadTask("id-1");
+        tarefa.concluir(Path.of("arquivo-que-nao-existe.mp4"));
+        when(downloadService.buscar("id-1")).thenReturn(Optional.of(tarefa));
+
+        ApiException erro = assertThrows(ApiException.class,
+                () -> controller.arquivo("id-1"));
+
+        assertEquals(HttpStatus.GONE, erro.getStatus());
+    }
+
 }

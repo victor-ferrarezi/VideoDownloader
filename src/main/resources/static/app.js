@@ -8,8 +8,9 @@
      2. mostra ou esconde partes da página conforme a resposta.
 
    Nenhuma regra de negócio mora aqui (por exemplo, quem decide se
-   um link é válido é o servidor). Assim, um futuro app de celular
-   ou de PC reaproveita a mesma API sem reescrever regras.
+   um link é válido, ou quais qualidades são oferecidas, é o servidor).
+   Assim, um futuro app de celular ou de PC reaproveita a mesma API
+   sem reescrever regras.
    ========================================================== */
 
 
@@ -164,12 +165,6 @@ function mostrarInfo(info) {
 
 /* ---------- 5. Lista de formatos ---------- */
 
-// "1920x1080" vira 1080 (usado para ordenar do maior para o menor)
-function alturaDe(formato) {
-    const m = /x(\d+)/.exec(formato.resolucao);
-    return m ? Number(m[1]) : 0;
-}
-
 // Cria uma linha da lista: um botão de rádio + o texto da opção
 function criarOpcao({ valor, temAudio, titulo, detalhe, marcado }) {
     const rotulo = document.createElement('label');
@@ -179,7 +174,9 @@ function criarOpcao({ valor, temAudio, titulo, detalhe, marcado }) {
     radio.type = 'radio';
     radio.name = 'formato';
     radio.value = valor;
-    radio.dataset.temAudio = String(temAudio);   // guarda um dado extra no elemento
+    // O servidor ainda usa esta informação por dentro (para decidir se
+    // precisa juntar o áudio), mas ela não aparece para o usuário.
+    radio.dataset.temAudio = String(temAudio);
     radio.checked = marcado;
 
     const texto = document.createElement('span');
@@ -187,11 +184,15 @@ function criarOpcao({ valor, temAudio, titulo, detalhe, marcado }) {
 
     const forte = document.createElement('strong');
     forte.textContent = titulo;
+    texto.append(forte);
 
-    const pequeno = document.createElement('small');
-    pequeno.textContent = detalhe;
+    // a linha de detalhe só aparece quando há algo a mostrar
+    if (detalhe) {
+        const pequeno = document.createElement('small');
+        pequeno.textContent = detalhe;
+        texto.append(pequeno);
+    }
 
-    texto.append(forte, pequeno);
     rotulo.append(radio, texto);
     return rotulo;
 }
@@ -199,32 +200,26 @@ function criarOpcao({ valor, temAudio, titulo, detalhe, marcado }) {
 function mostrarFormatos(formatos) {
     el.listaFormatos.replaceChildren();   // limpa a lista anterior
 
-    // Primeira opção: o servidor escolhe a melhor qualidade
+    // Primeira opção: o servidor escolhe a melhor qualidade (até 4K)
     el.listaFormatos.append(criarOpcao({
         valor: '',
         temAudio: false,
         titulo: 'Melhor qualidade (automático)',
-        detalhe: 'Vídeo e áudio nas melhores qualidades disponíveis',
+        detalhe: 'A maior qualidade disponível, até 4K',
         marcado: true,
     }));
 
-    // [...formatos] copia a lista para não alterar a original ao ordenar
-    [...formatos]
-        .sort((a, b) => alturaDe(b) - alturaDe(a))   // maior resolução primeiro
-        .forEach((f) => {
-            const partes = [f.extensao];
-            if (f.descricao) partes.push(f.descricao);
-            partes.push(f.temAudio ? 'com áudio' : 'sem áudio (será juntado ao melhor áudio)');
-            partes.push(`id ${f.id}`);
-
-            el.listaFormatos.append(criarOpcao({
-                valor: f.id,
-                temAudio: f.temAudio,
-                titulo: f.resolucao,
-                detalhe: partes.join(', '),
-                marcado: false,
-            }));
-        });
+    // O servidor já devolve de 480p a 4K, da maior para a menor,
+    // com uma opção por resolução. Aqui só mostramos.
+    formatos.forEach((f) => {
+        el.listaFormatos.append(criarOpcao({
+            valor: f.id,
+            temAudio: f.temAudio,
+            titulo: f.resolucao,
+            detalhe: f.descricao,
+            marcado: false,
+        }));
+    });
 
     el.painelFormatos.hidden = false;
 }
