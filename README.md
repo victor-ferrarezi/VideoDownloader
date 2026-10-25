@@ -47,7 +47,7 @@ Instale e confira que cada comando abaixo funciona no terminal:
 
 ```powershell
 py -m pip install -U yt-dlp
-py -m yt_dlp --version
+winget install Gyan.FFmpeg
 ```
 
 Feche e abra o terminal depois de instalar.
