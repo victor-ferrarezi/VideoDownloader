@@ -70,8 +70,8 @@ python3 -m pip install -U yt-dlp   # ou baixe o binário em github.com/yt-dlp/yt
 1. Clone o repositório:
 
    ```bash
-   git clone https://github.com/[USUARIO]/[REPOSITORIO].git
-   cd [REPOSITORIO]
+   git clone https://github.com/victor-ferrarezi/VideoDownloader.git
+   cd VideoDownloader
    ```
 
 2. Confira a configuração em `src/main/resources/application.properties` (veja a seção abaixo). Por padrão o comando é `yt-dlp`.
